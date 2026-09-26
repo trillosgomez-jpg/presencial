@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Laboratorio Pedagógico - Unidad 3</title>
+<style>
+:root{
+  --azul:#1d4ed8;--azul2:#2563eb;--morado:#7c3aed;--verde:#16a34a;--naranja:#f97316;
+  --rojo:#dc2626;--celeste:#e0f2fe;--gris:#f8fafc;--gris2:#e2e8f0;--texto:#1e293b;
+  --sombra:0 14px 38px rgba(15,23,42,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:linear-gradient(135deg,#dbeafe,#f8fafc);
+  color:var(--texto);
+  min-height:100vh;
+}
+header{
+  background:linear-gradient(135deg,#0f3fa5,var(--azul),var(--morado));
+  color:#fff;
+  padding:20px;
+  text-align:center;
+  box-shadow:var(--sombra);
+}
+header h1{font-size:clamp(1.35rem,3vw,2.2rem);margin-bottom:5px}
+header p{opacity:.95}
+.wrap{width:min(1120px,95%);margin:22px auto 42px}
+.panel{
+  background:#fff;
+  border-radius:24px;
+  padding:28px;
+  box-shadow:var(--sombra);
+  margin-bottom:18px;
+}
+.progress{
+  height:13px;background:#bae6fd;border-radius:20px;overflow:hidden;margin:10px 0 8px
+}
+.progress span{display:block;height:100%;width:0;background:var(--verde);transition:.35s}
+#count{color:#64748b;font-weight:800}
+.step{display:none}
+.step.active{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+h2{color:var(--azul);font-size:clamp(1.45rem,3vw,2.05rem);margin-bottom:12px}
+h3{color:#0f172a;margin:16px 0 10px}
+p{line-height:1.65;margin-bottom:12px;font-size:1.04rem}
+label{font-weight:850;color:#0f172a;display:block;margin:12px 0 7px}
+input,textarea,select{
+  width:100%;border:1px solid var(--gris2);border-radius:14px;padding:12px;
+  font-family:inherit;font-size:1rem;margin-bottom:10px;background:white;
+}
+textarea{min-height:95px;resize:vertical}
+.btn{
+  border:0;border-radius:14px;background:var(--azul2);color:white;padding:12px 18px;
+  font-weight:850;cursor:pointer;margin:7px 7px 7px 0;transition:.25s;
+}
+.btn:hover{background:var(--azul);transform:translateY(-2px)}
+.btn.green{background:var(--verde)}.btn.purple{background:var(--morado)}.btn.orange{background:var(--naranja)}
+.btn.ghost{background:#eef2ff;color:var(--azul);border:1px solid #c7d2fe}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:12px}
+.card{
+  background:var(--gris);border-left:6px solid var(--azul2);border-radius:16px;padding:16px;
+  box-shadow:0 4px 12px rgba(15,23,42,.06);
+}
+.card strong{display:block;color:var(--azul);margin-bottom:6px}
+.case{
+  background:#f8fafc;border:1px solid #cbd5e1;border-radius:18px;padding:18px;margin:14px 0;
+}
+.quote{
+  font-size:1.22rem;font-weight:850;color:var(--azul);text-align:center;padding:18px;
+  background:var(--celeste);border-radius:18px;margin:15px 0;line-height:1.45;
+}
+.small{color:#64748b;font-size:.92rem}
+.check-card{
+  background:#fff;border:2px solid var(--gris2);border-radius:15px;padding:12px;margin:8px 0;
+}
+.check-card:hover{border-color:#93c5fd;background:#eff6ff}
+.option{
+  display:block;width:100%;text-align:left;padding:14px;margin:8px 0;border:2px solid var(--gris2);
+  background:white;border-radius:14px;cursor:pointer;transition:.25s;font-weight:650;
+}
+.option:hover,.option.selected{border-color:var(--azul2);background:var(--celeste)}
+.feedback{
+  display:none;margin-top:12px;padding:14px;border-radius:14px;background:#ecfdf5;border-left:6px solid var(--verde);
+  line-height:1.55;
+}
+.risk-bank,.drop-zone{
+  min-height:130px;border:2px dashed #93c5fd;background:#eff6ff;border-radius:18px;padding:14px;margin:12px 0;
+}
+.token{
+  display:inline-block;background:white;border:2px solid #bfdbfe;color:var(--azul);font-weight:850;
+  padding:9px 12px;border-radius:999px;margin:6px;cursor:grab;box-shadow:0 5px 14px rgba(15,23,42,.08);
+}
+.drop-title{font-weight:900;color:var(--morado);margin-bottom:8px}
+.resultBox{
+  display:none;background:#f1f5f9;border-left:6px solid var(--azul);border-radius:16px;
+  padding:18px;white-space:pre-wrap;line-height:1.55;margin-top:12px;
+}
+.badge{
+  display:inline-block;padding:7px 13px;border-radius:999px;background:#e0f2fe;color:#075985;
+  font-weight:850;margin:5px 5px 12px 0;
+}
+.alert{background:#fff7ed;border-left:7px solid var(--naranja);padding:15px;border-radius:15px;margin:15px 0}
+.success{background:#ecfdf5;border-left:7px solid var(--verde);padding:15px;border-radius:15px;margin:15px 0}
+footer{text-align:center;padding:14px;color:#64748b;font-size:.88rem}
+@media(max-width:800px){.panel{padding:20px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>Laboratorio Pedagógico del Participante</h1>
+<p>Unidad 3 · Convivencia en escenarios educativos contemporáneos y cierre del módulo</p>
+</header>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="progress"><span id="bar"></span></div>
+    <p id="count"></p>
+  </div>
+
+  <div class="panel step active">
+    <h2>Datos del participante</h2>
+    <p>Este laboratorio recoge tus reflexiones, análisis y compromisos finales del módulo. Al terminar podrás descargar tus respuestas en un documento de Word.</p>
+    <label>Nombre completo</label>
+    <input id="nombre" placeholder="Escribe tu nombre completo">
+    <label>Grupo / Cohorte</label>
+    <input id="grupo" placeholder="Escribe tu grupo o cohorte">
+    <button class="btn green" onclick="next()">Iniciar laboratorio</button>
+  </div>
+
+  <div class="panel step">
+    <h2>1. Recordando el camino recorrido</h2>
+    <p>Antes de avanzar, retomemos las ideas centrales de las sesiones anteriores.</p>
+    <label>Hoy entiendo que la convivencia escolar...</label>
+    <textarea id="rec1"></textarea>
+    <label>El diálogo pedagógico me permite...</label>
+    <textarea id="rec2"></textarea>
+    <label>Un conflicto puede convertirse en...</label>
+    <textarea id="rec3"></textarea>
+    <label>La inclusión significa...</label>
+    <textarea id="rec4"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn" onclick="next()">Continuar</button>
+  </div>
+
+  <div class="panel step">
+    <h2>2. Cortometraje: Cuerdas</h2>
+    <p>Después de observar el corto, selecciona los valores que más se evidencian y responde las preguntas.</p>
+    <div class="grid">
+      <div class="check-card"><label><input type="checkbox" class="cuerdas" value="Empatía"> Empatía</label></div>
+      <div class="check-card"><label><input type="checkbox" class="cuerdas" value="Amistad"> Amistad</label></div>
+      <div class="check-card"><label><input type="checkbox" class="cuerdas" value="Inclusión"> Inclusión</label></div>
+      <div class="check-card"><label><input type="checkbox" class="cuerdas" value="Respeto"> Respeto</label></div>
+      <div class="check-card"><label><input type="checkbox" class="cuerdas" value="Solidaridad"> Solidaridad</label></div>
+      <div class="check-card"><label><input type="checkbox" class="cuerdas" value="Aceptación"> Aceptación</label></div>
+    </div>
+    <label>¿Qué hizo diferente María frente al resto del grupo?</label>
+    <textarea id="cuerdas1"></textarea>
+    <label>¿Qué enseñanza deja este corto para un docente?</label>
+    <textarea id="cuerdas2"></textarea>
+    <label>¿Cómo habría cambiado la historia si María hubiera actuado igual que los demás?</label>
+    <textarea id="cuerdas3"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn" onclick="next()">Continuar</button>
+  </div>
+
+  <div class="panel step">
+    <h2>3. Ciudadanía digital</h2>
+    <p class="quote">Detrás de cada pantalla sigue existiendo una persona.</p>
+    <label>¿Qué significa para ti formar ciudadanos digitales responsables?</label>
+    <textarea id="dig1"></textarea>
+    <label>¿Qué responsabilidad tiene el docente frente a la convivencia digital de sus estudiantes?</label>
+    <textarea id="dig2"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn" onclick="next()">Continuar</button>
+  </div>
+
+  <div class="panel step">
+    <h2>4. Video: The Bullying Monster</h2>
+    <p>Este video permite reflexionar sobre cómo el acoso crece cuando se normaliza, se minimiza o nadie interviene.</p>
+    <div class="grid">
+      <div class="check-card"><label><input type="checkbox" class="bully" value="Intimidación"> Intimidación</label></div>
+      <div class="check-card"><label><input type="checkbox" class="bully" value="Exclusión"> Exclusión</label></div>
+      <div class="check-card"><label><input type="checkbox" class="bully" value="Burlas"> Burlas</label></div>
+      <div class="check-card"><label><input type="checkbox" class="bully" value="Violencia verbal"> Violencia verbal</label></div>
+      <div class="check-card"><label><input type="checkbox" class="bully" value="Violencia digital"> Violencia digital</label></div>
+      <div class="check-card"><label><input type="checkbox" class="bully" value="Indiferencia del grupo"> Indiferencia del grupo</label></div>
+    </div>
+    <label>¿Qué situaciones observaste en el video?</label>
+    <textarea id="bully1"></textarea>
+    <label>¿Qué pudo hacer el docente o el adulto responsable?</label>
+    <textarea id="bully2"></textarea>
+    <label>¿Qué pudo hacer el grupo para no alimentar el problema?</label>
+    <textarea id="bully3"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn" onclick="next()">Continuar</button>
+  </div>
+
+  <div class="panel step">
+    <h2>5. Simulación: grupo de WhatsApp</h2>
+    <div class="case">
+      <p><strong>Situación:</strong> En el grupo de WhatsApp del curso, varios estudiantes comparten un meme burlándose de una compañera por su forma de participar en clase. Algunos reaccionan con risas, otros guardan silencio y la estudiante deja de conectarse a las sesiones virtuales.</p>
+    </div>
+    <p><strong>Selecciona la primera acción que tomarías como docente:</strong></p>
+    <button class="option" onclick="selectOption(this,'Ignorar la situación puede aumentar el daño. Aunque ocurra fuera del aula física, afecta la participación, el bienestar y la convivencia escolar.')">Ignorar porque ocurrió fuera de clase.</button>
+    <button class="option" onclick="selectOption(this,'Buena decisión inicial: escuchar a la estudiante y documentar lo ocurrido permite comprender el daño y actuar responsablemente.')">Escuchar a la estudiante afectada y documentar lo ocurrido.</button>
+    <button class="option" onclick="selectOption(this,'Sancionar sin escuchar puede aumentar la tensión. Primero se requiere comprender, activar rutas si corresponde y orientar acciones formativas.')">Sancionar públicamente a quienes participaron.</button>
+    <button class="option" onclick="selectOption(this,'Remitir puede ser necesario, pero el docente también debe realizar una acción pedagógica con el grupo.')">Remitir el caso y no hacer nada más.</button>
+    <div class="feedback" id="feedback"></div>
+    <label>Justifica tu decisión.</label>
+    <textarea id="whats1"></textarea>
+    <label>¿Qué acción restaurativa propondrías?</label>
+    <textarea id="whats2"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn" onclick="next()">Continuar</button>
+  </div>
+
+  <div class="panel step">
+    <h2>6. Clasificación de riesgos digitales</h2>
+    <p>Arrastra cada riesgo a la zona que consideres más relacionada. Esta actividad es de reflexión, no de única respuesta.</p>
+    <div class="risk-bank" id="bank">
+      <span class="token" draggable="true">Ciberacoso</span>
+      <span class="token" draggable="true">Fake news</span>
+      <span class="token" draggable="true">Suplantación</span>
+      <span class="token" draggable="true">Sexting</span>
+      <span class="token" draggable="true">Grooming</span>
+      <span class="token" draggable="true">Uso irresponsable de IA</span>
+    </div>
+    <div class="grid">
+      <div class="drop-zone" data-zone="Convivencia y bienestar"><div class="drop-title">Convivencia y bienestar</div></div>
+      <div class="drop-zone" data-zone="Seguridad y protección"><div class="drop-title">Seguridad y protección</div></div>
+      <div class="drop-zone" data-zone="Información y ética académica"><div class="drop-title">Información y ética académica</div></div>
+    </div>
+    <label>¿Cuál de estos riesgos consideras más urgente trabajar en tu contexto educativo y por qué?</label>
+    <textarea id="riesgos1"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn" onclick="next()">Continuar</button>
+  </div>
+
+  <div class="panel step">
+    <h2>7. Video: Look Up</h2>
+    <p>Este video permite reflexionar sobre la relación entre tecnología, atención, vínculos humanos y presencia.</p>
+    <label>¿La tecnología nos conecta o nos aleja? Explica tu respuesta.</label>
+    <textarea id="lookup1"></textarea>
+    <label>¿Cómo puede afectar el uso excesivo de pantallas la convivencia escolar?</label>
+    <textarea id="lookup2"></textarea>
+    <label>¿Qué orientación darías a tus estudiantes sobre el uso equilibrado de la tecnología?</label>
+    <textarea id="lookup3"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn" onclick="next()">Continuar</button>
+  </div>
+
+  <div class="panel step">
+    <h2>8. Video: Los Zapatos de Luis</h2>
+    <p>Este corto permite reflexionar sobre autismo, inclusión, empatía y comprensión de las diferencias.</p>
+    <div class="grid">
+      <div class="check-card"><label><input type="checkbox" class="luis" value="Barreras sociales"> Barreras sociales</label></div>
+      <div class="check-card"><label><input type="checkbox" class="luis" value="Barreras actitudinales"> Barreras actitudinales</label></div>
+      <div class="check-card"><label><input type="checkbox" class="luis" value="Barreras comunicativas"> Barreras comunicativas</label></div>
+      <div class="check-card"><label><input type="checkbox" class="luis" value="Barreras emocionales"> Barreras emocionales</label></div>
+      <div class="check-card"><label><input type="checkbox" class="luis" value="Barreras pedagógicas"> Barreras pedagógicas</label></div>
+    </div>
+    <label>¿Qué barreras encontró Luis?</label>
+    <textarea id="luis1"></textarea>
+    <label>¿Qué habría hecho usted como docente?</label>
+    <textarea id="luis2"></textarea>
+    <label>¿Cómo se relaciona este corto con la convivencia y la ciudadanía digital?</label>
+    <textarea id="luis3"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn" onclick="next()">Continuar</button>
+  </div>
+
+  <div class="panel step">
+    <h2>9. Estrategia pedagógica</h2>
+    <p>Diseña una acción concreta para fortalecer la convivencia en un escenario presencial o digital.</p>
+    <label>Problema o situación identificada</label>
+    <textarea id="estr1"></textarea>
+    <label>Acción pedagógica propuesta</label>
+    <textarea id="estr2"></textarea>
+    <label>Herramienta o recurso que utilizarías</label>
+    <textarea id="estr3"></textarea>
+    <label>Resultado esperado</label>
+    <textarea id="estr4"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn" onclick="next()">Continuar</button>
+  </div>
+
+  <div class="panel step">
+    <h2>10. Decálogo y compromiso docente</h2>
+    <p>Escribe cinco compromisos concretos que asumirías como docente para promover la convivencia.</p>
+    <label>Compromiso 1</label><input id="d1">
+    <label>Compromiso 2</label><input id="d2">
+    <label>Compromiso 3</label><input id="d3">
+    <label>Compromiso 4</label><input id="d4">
+    <label>Compromiso 5</label><input id="d5">
+    <label>Después de este módulo me comprometo a...</label>
+    <textarea id="compFinal"></textarea>
+    <button class="btn ghost" onclick="prev()">Volver</button>
+    <button class="btn green" onclick="preview()">Generar vista previa</button>
+    <div class="resultBox" id="preview"></div>
+    <button class="btn orange" onclick="downloadWord()">Descargar documento Word</button>
+  </div>
+</div>
+
+<footer>Diplomado en Pedagogía para Profesionales No Licenciados · Laboratorio Pedagógico del Participante</footer>
+
+<script>
+const steps=document.querySelectorAll(".step");
+let current=0;
+let decision="";
+function update(){
+  steps.forEach((s,i)=>s.classList.toggle("active",i===current));
+  document.getElementById("bar").style.width=((current+1)/steps.length*100)+"%";
+  document.getElementById("count").textContent=`Paso ${current+1} de ${steps.length}`;
+}
+function next(){if(current<steps.length-1){current++;update();scrollTo({top:0,behavior:"smooth"})}}
+function prev(){if(current>0){current--;update();scrollTo({top:0,behavior:"smooth"})}}
+function val(id){return document.getElementById(id)?.value.trim()||""}
+function checks(cls){return Array.from(document.querySelectorAll("."+cls+":checked")).map(c=>c.value)}
+function selectOption(btn,msg){
+  document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+  btn.classList.add("selected");
+  decision=btn.textContent.trim();
+  const fb=document.getElementById("feedback");
+  fb.style.display="block";
+  fb.textContent=msg;
+}
+
+let dragged=null;
+document.addEventListener("dragstart",e=>{
+  if(e.target.classList.contains("token")) dragged=e.target;
+});
+document.querySelectorAll(".drop-zone,.risk-bank").forEach(zone=>{
+  zone.addEventListener("dragover",e=>e.preventDefault());
+  zone.addEventListener("drop",e=>{
+    e.preventDefault();
+    if(dragged) zone.appendChild(dragged);
+  });
+});
+function zoneItems(){
+  return Array.from(document.querySelectorAll(".drop-zone")).map(z=>{
+    const name=z.dataset.zone;
+    const items=Array.from(z.querySelectorAll(".token")).map(t=>t.textContent.trim()).join(", ");
+    return `<p><strong>${name}:</strong> ${items || "Sin elementos"}</p>`;
+  }).join("");
+}
+
+function reportHTML(){
+  return `
+  <h1>Laboratorio Pedagógico - Unidad 3</h1>
+  <h2>Convivencia en escenarios educativos contemporáneos y cierre del módulo</h2>
+  <p><strong>Nombre:</strong> ${val("nombre")}</p>
+  <p><strong>Grupo:</strong> ${val("grupo")}</p>
+  <hr>
+
+  <h3>1. Recordando el camino recorrido</h3>
+  <p><strong>La convivencia escolar:</strong> ${val("rec1")}</p>
+  <p><strong>El diálogo pedagógico:</strong> ${val("rec2")}</p>
+  <p><strong>El conflicto:</strong> ${val("rec3")}</p>
+  <p><strong>La inclusión:</strong> ${val("rec4")}</p>
+
+  <h3>2. Análisis del cortometraje Cuerdas</h3>
+  <p><strong>Valores identificados:</strong> ${checks("cuerdas").join(", ") || "Sin selección"}</p>
+  <p><strong>¿Qué hizo diferente María?:</strong> ${val("cuerdas1")}</p>
+  <p><strong>Enseñanza para el docente:</strong> ${val("cuerdas2")}</p>
+  <p><strong>Si María hubiera actuado igual que los demás:</strong> ${val("cuerdas3")}</p>
+
+  <h3>3. Ciudadanía digital</h3>
+  <p><strong>Formar ciudadanos digitales responsables:</strong> ${val("dig1")}</p>
+  <p><strong>Responsabilidad docente:</strong> ${val("dig2")}</p>
+
+  <h3>4. Análisis de The Bullying Monster</h3>
+  <p><strong>Situaciones identificadas:</strong> ${checks("bully").join(", ") || "Sin selección"}</p>
+  <p><strong>Observaciones:</strong> ${val("bully1")}</p>
+  <p><strong>Acción docente:</strong> ${val("bully2")}</p>
+  <p><strong>Acción del grupo:</strong> ${val("bully3")}</p>
+
+  <h3>5. Simulación: grupo de WhatsApp</h3>
+  <p><strong>Primera acción seleccionada:</strong> ${decision || "Sin selección"}</p>
+  <p><strong>Justificación:</strong> ${val("whats1")}</p>
+  <p><strong>Acción restaurativa:</strong> ${val("whats2")}</p>
+
+  <h3>6. Clasificación de riesgos digitales</h3>
+  ${zoneItems()}
+  <p><strong>Riesgo más urgente:</strong> ${val("riesgos1")}</p>
+
+  <h3>7. Análisis de Look Up</h3>
+  <p><strong>¿Conecta o aleja?:</strong> ${val("lookup1")}</p>
+  <p><strong>Pantallas y convivencia:</strong> ${val("lookup2")}</p>
+  <p><strong>Orientación a estudiantes:</strong> ${val("lookup3")}</p>
+
+  <h3>8. Análisis de Los Zapatos de Luis</h3>
+  <p><strong>Barreras seleccionadas:</strong> ${checks("luis").join(", ") || "Sin selección"}</p>
+  <p><strong>Barreras encontradas:</strong> ${val("luis1")}</p>
+  <p><strong>Actuación docente:</strong> ${val("luis2")}</p>
+  <p><strong>Relación con convivencia y ciudadanía digital:</strong> ${val("luis3")}</p>
+
+  <h3>9. Estrategia pedagógica</h3>
+  <p><strong>Problema:</strong> ${val("estr1")}</p>
+  <p><strong>Acción propuesta:</strong> ${val("estr2")}</p>
+  <p><strong>Herramienta o recurso:</strong> ${val("estr3")}</p>
+  <p><strong>Resultado esperado:</strong> ${val("estr4")}</p>
+
+  <h3>10. Decálogo y compromiso docente</h3>
+  <ol>
+    <li>${val("d1")}</li>
+    <li>${val("d2")}</li>
+    <li>${val("d3")}</li>
+    <li>${val("d4")}</li>
+    <li>${val("d5")}</li>
+  </ol>
+  <p><strong>Compromiso final:</strong> ${val("compFinal")}</p>
+  `;
+}
+function preview(){
+  const p=document.getElementById("preview");
+  p.style.display="block";
+  p.innerHTML=reportHTML().replace(/<[^>]+>/g,"").replace(/\n\s*/g,"\n");
+}
+function downloadWord(){
+  const content=`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Laboratorio Pedagógico Unidad 3</title></head><body>${reportHTML()}</body></html>`;
+  const blob=new Blob(['\ufeff',content],{type:'application/msword'});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="laboratorio_pedagogico_unidad_3.doc";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+update();
+</script>
+</body>
+</html>
